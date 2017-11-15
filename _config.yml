@@ -1,1 +1,12 @@
-theme: jekyll-theme-cayman
+#Site Settings
+title:  Sarah Wilson
+tag-line: Aerospace Engineer // Writer // Outdoor Adventurer
+baseurl:      ""
+excerpt_separator: <!--endPreview-->
+# sass
+sass:
+  sass_dir: assets/css
+  style: :nested
+
+#Others
+markdown: kramdown

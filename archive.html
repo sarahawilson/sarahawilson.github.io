@@ -1,0 +1,13 @@
+---
+layout: default
+title: {{ site.title }}
+---
+
+<div id="home">
+  {% for post in site.posts %}
+    <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+    <h2><span class="carrot">&raquo; </span>{{ post.date | date_to_string }}</h2>
+    {{ post.content | split:'<!--excerpt.start-->' | last | split: '<!--excerpt.end-->' | first }}
+    <div class="sep-line"></div>
+  {% endfor %}
+</div>
