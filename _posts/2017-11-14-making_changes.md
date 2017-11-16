@@ -61,4 +61,4 @@ $$
 "Don't bother learning anything unless it's relevant and you can apply it somewhere in your life", is a quote from a co-worker of mine who is retiring soon. Writing about math is fun, but I didn't feel like what I was writing about was relevant in a way. I wanted
 the new site to be more professional and a portfolio of my work. A resource for myself and others to review concepts, create a foundation in mathematics and create meaningful projects.
 
-I have migrated the old content from Experimental Imperfections and made a few minor updates. Excited to see the possibilities of this new platform.
+I have migrated the old content from Experimental Imperfections and made a few minor updates. Excited to see the possibilities of this new platform. 
