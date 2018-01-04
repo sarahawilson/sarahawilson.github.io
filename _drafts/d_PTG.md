@@ -15,13 +15,188 @@ date:   2017-12-10
 Post Content goes here.
 <!--excerpt.end-->
 
-<div class="container_slideshow">
-  <img class="slides" src="../../../assets/images/imgPost/koingsberg.png" style="width:100%">
-  <img class="slides" src="../../../assets/images/imgPost/diagrambridges.png" style="width:100%">
-  <svg class ="slides">
-    <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
-  </svg>
 
-  <button class="button-left" onclick="plusDivs(-1)">&#10094;</button>
-  <button class="button-right" onclick="plusDivs(1)">&#10095;</button>
+<div class="container_slideshow">
+  {% for image in site.static_files %}
+    {% if image.path contains 'images/imgPost/PTG_Images/slide_show_images' %}
+      <img class="slides" src="{{ site.baseurl }}{{ image.path }}">
+    {% endif %}
+  {% endfor %}
+
+  <button class="button-left" onclick="plusDivs(-1)">Step Backward</button>
+  <button class="button-right" onclick="plusDivs(1)">Step Forward</button>
+  <button class="button-play" onclick="playStart()">Play</button>
+  <button class="button-pause" onclick="playPause()">Pause</button>
 </div>
+
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg">
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint10.svg">
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint50.svg">
+
+
+
+{% highlight matlab %}
+%% Procedural Terrian Generation
+% Diamond Square Algorithm
+
+%% Defined Inputs
+
+n = 3;                          % Number of Iterations
+GRDIM  = ((2^n)+1);             % Grid Dimensions
+RCOE = .2;                      % Roughness Coefficent
+plotNum = 0;
+
+%% Initilize Grid
+
+grid = zeros(GRDIM);        
+rValUpper = RCOE^n;             % Upper Limit for Roughness
+rValLower = (-1*rValUpper);     % Lower Limit for Roughness
+
+ptg_plotter( grid, plotNum );
+plotNum = plotNum + 1;
+
+grid(1, 1) = 1;                  % Pre-seed the corners with a value
+grid(1, GRDIM) = 1.4;
+grid(GRDIM, 1) = 1;
+grid(GRDIM, GRDIM) = 1.2;
+
+ptg_plotter( grid, plotNum );
+plotNum = plotNum + 1;
+
+stpDim = GRDIM;             % Step Dimension to be used in loops
+mp = (ceil(stpDim/2));       % Midpoint of each square
+
+%% Main
+
+while (mp > 1)
+    % Diamond Step
+    for row = 1:(stpDim - 1):GRDIM
+        if (row == GRDIM)
+            break;              % If edge of grid by row break out
+        end
+        for col = 1:(stpDim - 1):GRDIM
+            if (col==GRDIM)
+                break;          % If edge of grid by col break out
+            end
+
+            topLeft = grid(row,col);
+            topRight = grid(row, (col + (stpDim - 1)));
+            botLeft = grid((row + (stpDim - 1)), col);
+            botRight = grid((row + (stpDim - 1)),(col + (stpDim - 1)));
+
+            valRan = randValGen(rValLower, rValUpper); % Random Value
+            valD = ((topLeft + topRight + botLeft + botRight)/4) + valRan;
+            grid((row + (mp - 1)), (col + (mp - 1))) = valD;
+            ptg_plotter( grid, plotNum );
+            plotNum = plotNum + 1;
+        end
+    end
+
+    % Square Step
+    for row = 1:(stpDim - 1):GRDIM
+        if (row == GRDIM)
+            break;              % If edge of grid by row break out
+        end
+        for col = 1:(stpDim - 1):GRDIM
+            if (col == GRDIM)
+                break;          % If edge of grid by col break out
+            end
+            sTopL = grid(row, col);             % Get the values for the conrners from the diamond step
+            sTopR = grid(row, (col + (stpDim - 1)));  
+            sBotL = grid((row + (stpDim - 1)), col);
+            sBotR = grid((row + (stpDim - 1)),(col + (stpDim - 1)));
+            sCen = grid((row + (mp - 1)), (col + (mp - 1)));
+
+            rValR = randValGen(rValLower, rValUpper);
+            rValL = randValGen(rValLower, rValUpper);
+            rValT = randValGen(rValLower, rValUpper);
+            rValB = randValGen(rValLower, rValUpper);
+
+            curRowCen = row + (mp - 1);
+            curColCen = col + (mp - 1);
+
+            if (row == 1)
+                Top = ((sTopL + sTopR + sCen)/3) + rValR;
+                grid(row, (col + (mp - 1))) = Top;
+                ptg_plotter( grid, plotNum );
+                plotNum = plotNum + 1;
+            end
+
+            if (col == 1)
+                Left = ((sTopL + sBotL + sCen)/3) + rValL;
+                grid((row + (mp - 1)), col) = Left;
+                ptg_plotter( grid, plotNum );
+                plotNum = plotNum + 1;
+            end
+
+            if ((row + (stpDim - 1)) == GRDIM)
+                Bot = ((sBotL + sBotR + sCen)/3) + rValB;
+                grid(GRDIM, (col + (mp - 1))) = Bot;
+                ptg_plotter( grid, plotNum );
+                plotNum = plotNum + 1;
+            else
+                bnsCen = grid((curRowCen + (stpDim - 1)), curColCen);
+                % bns Bottom Next Square
+                Bot = ((sBotL + sBotR + sCen + bnsCen)/4) + rValB;
+                grid((row + (stpDim - 1)), curColCen) = Bot;
+                ptg_plotter( grid, plotNum );
+                plotNum = plotNum + 1;
+            end
+
+            if ((col + (stpDim - 1)) == GRDIM)
+                Right = ((sBotR + sTopR + sCen)/3) + rValR;
+                grid((row + (mp-1)), GRDIM) = Right;
+                ptg_plotter( grid, plotNum );
+                plotNum = plotNum + 1;
+            else
+                rnsCen = grid(curRowCen, (curColCen + (stpDim - 1)));
+                Right = ((sTopR + sBotL + sCen + rnsCen)/4) + rValR;
+                grid(curRowCen, (col + (stpDim - 1))) = Right;
+                ptg_plotter( grid, plotNum );
+                plotNum = plotNum + 1;
+            end
+        end
+    end
+
+    % Get Ready for the Next Iteration
+    stpDim = mp;
+    mp = ceil(stpDim/2);
+    n = n - 1;
+    rValUpper = RCOE^n;
+    rValLower = (-1 * rValUpper);
+
+end
+
+{% endhighlight %}
+
+{% highlight matlab %}
+function [ outRandVal ] = randVal( rghUpper, rghLower )
+ outRandVal = rghUpper + (rghUpper - rghLower).* rand(1);
+end
+{% endhighlight %}
+
+{% highlight matlab %}
+function [] = ptg_plotter( grid, plotNum )
+
+figure()
+surf(grid);
+view([-47 74])
+caxis('manual');
+demcmap(([0 1.8]));
+
+zlim([0 2.5])
+
+step = num2str(plotNum);
+if (plotNum<10)
+    fileName = ['grid_rCOE1point9' step]
+else
+    fileName = ['grid_' step]
+end
+saveas(gcf, fileName,'svg')
+
+close all
+
+
+end
+
+{% endhighlight %}

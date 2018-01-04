@@ -10,3 +10,4 @@ sass:
 
 #Others
 markdown: kramdown
+highlighter: rouge
