@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Procedural Terrain Generation"
-date:   2017-12-10
+date: 2018-01-03
 ---
 {::options auto_ids="false" /}
 
@@ -12,6 +12,7 @@ date:   2017-12-10
 ## Diamond Square Algorithm
 
 <!--excerpt.start-->
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg">
 Post Content goes here.
 <!--excerpt.end-->
 
@@ -29,39 +30,35 @@ Post Content goes here.
   <button class="button-pause" onclick="playPause()">Pause</button>
 </div>
 
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg">
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint10.svg">
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint50.svg">
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStep.svg" height="300" width="300" style="display:inline;">
 
 
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint10.svg" style="display:inline;">
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint50.svg" style="display:inline;">
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg" style="display:inline;">
 
+
+# [](#header-1) PTG: Main Script
 {% highlight matlab %}
-%% Procedural Terrian Generation
+%% Procedural Terrain Generation
 % Diamond Square Algorithm
 
 %% Defined Inputs
 
 n = 3;                          % Number of Iterations
 GRDIM  = ((2^n)+1);             % Grid Dimensions
-RCOE = .2;                      % Roughness Coefficent
-plotNum = 0;
+RCOE = .2;                      % Roughness Coefficient
 
-%% Initilize Grid
+%% Initialize Grid
 
 grid = zeros(GRDIM);        
 rValUpper = RCOE^n;             % Upper Limit for Roughness
 rValLower = (-1*rValUpper);     % Lower Limit for Roughness
 
-ptg_plotter( grid, plotNum );
-plotNum = plotNum + 1;
-
-grid(1, 1) = 1;                  % Pre-seed the corners with a value
+grid(1, 1) = 1;                 % Pre-seed the corners with a value
 grid(1, GRDIM) = 1.4;
 grid(GRDIM, 1) = 1;
 grid(GRDIM, GRDIM) = 1.2;
-
-ptg_plotter( grid, plotNum );
-plotNum = plotNum + 1;
 
 stpDim = GRDIM;             % Step Dimension to be used in loops
 mp = (ceil(stpDim/2));       % Midpoint of each square
@@ -87,8 +84,6 @@ while (mp > 1)
             valRan = randValGen(rValLower, rValUpper); % Random Value
             valD = ((topLeft + topRight + botLeft + botRight)/4) + valRan;
             grid((row + (mp - 1)), (col + (mp - 1))) = valD;
-            ptg_plotter( grid, plotNum );
-            plotNum = plotNum + 1;
         end
     end
 
@@ -118,42 +113,30 @@ while (mp > 1)
             if (row == 1)
                 Top = ((sTopL + sTopR + sCen)/3) + rValR;
                 grid(row, (col + (mp - 1))) = Top;
-                ptg_plotter( grid, plotNum );
-                plotNum = plotNum + 1;
             end
 
             if (col == 1)
                 Left = ((sTopL + sBotL + sCen)/3) + rValL;
                 grid((row + (mp - 1)), col) = Left;
-                ptg_plotter( grid, plotNum );
-                plotNum = plotNum + 1;
             end
 
             if ((row + (stpDim - 1)) == GRDIM)
                 Bot = ((sBotL + sBotR + sCen)/3) + rValB;
                 grid(GRDIM, (col + (mp - 1))) = Bot;
-                ptg_plotter( grid, plotNum );
-                plotNum = plotNum + 1;
             else
                 bnsCen = grid((curRowCen + (stpDim - 1)), curColCen);
                 % bns Bottom Next Square
                 Bot = ((sBotL + sBotR + sCen + bnsCen)/4) + rValB;
                 grid((row + (stpDim - 1)), curColCen) = Bot;
-                ptg_plotter( grid, plotNum );
-                plotNum = plotNum + 1;
             end
 
             if ((col + (stpDim - 1)) == GRDIM)
                 Right = ((sBotR + sTopR + sCen)/3) + rValR;
                 grid((row + (mp-1)), GRDIM) = Right;
-                ptg_plotter( grid, plotNum );
-                plotNum = plotNum + 1;
             else
                 rnsCen = grid(curRowCen, (curColCen + (stpDim - 1)));
                 Right = ((sTopR + sBotL + sCen + rnsCen)/4) + rValR;
                 grid(curRowCen, (col + (stpDim - 1))) = Right;
-                ptg_plotter( grid, plotNum );
-                plotNum = plotNum + 1;
             end
         end
     end
@@ -167,35 +150,41 @@ while (mp > 1)
 
 end
 
+%% Final Plot
+
+ptg_plotter( grid, plotNum );
+
 {% endhighlight %}
+
+
+# [](#header-1) PTG: Random Value Generator Sub-Function
 
 {% highlight matlab %}
 function [ outRandVal ] = randVal( rghUpper, rghLower )
- outRandVal = rghUpper + (rghUpper - rghLower).* rand(1);
+  outRandVal = rghUpper + (rghUpper - rghLower).* rand(1);
 end
 {% endhighlight %}
+
+# [](#header-1) PTG: Plotting Sub-Function
 
 {% highlight matlab %}
 function [] = ptg_plotter( grid, plotNum )
 
-figure()
-surf(grid);
-view([-47 74])
-caxis('manual');
-demcmap(([0 1.8]));
+  figure()
+  surf(grid);
+  view([-47 74])
+  caxis('manual');
+  demcmap(([0 1.8]));
+  zlim([0 2.5]);
 
-zlim([0 2.5])
-
-step = num2str(plotNum);
-if (plotNum<10)
-    fileName = ['grid_rCOE1point9' step]
-else
+  step = num2str(plotNum);
+  if (plotNum<10)
+    fileName = ['grid_0' step]
+  else
     fileName = ['grid_' step]
-end
-saveas(gcf, fileName,'svg')
-
-close all
-
+  end
+  saveas(gcf, fileName,'svg')
+  close all
 
 end
 
