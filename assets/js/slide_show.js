@@ -1,53 +1,55 @@
-var slideIndex = 1;
-var myIndex = 0;
+slideIndex = 1;
+var inPlayStart;
 var playStarted;
-var playVar;
+var playInterval;
+var x = document.getElementsByClassName("slides");
 
 showDivs(slideIndex);
 
-function showDivs(n) {
-var i;
-var x = document.getElementsByClassName("slides");
-if (n > x.length) {slideIndex = 1}
-if (n < 1) {slideIndex = x.length}
-if (n < x.length && n > 1 ) { slideIndex = n }
+function showDivs(n)
+{
+  var i;
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
 
-for (i = 0; i < x.length; i++) {
- x[i].style.display = "none";
-}
-x[slideIndex-1].style.display = "block";
+  for (i = 0; i < x.length; i++) {
+   x[i].style.display = "none";
+  }
+  x[slideIndex-1].style.display = "block";
+
+  if(playStarted){
+    playStart();
+    }
 }
 
-function plusDivs(n) {
-  if (playStarted) {
-    playPause()
-    showDivs(myIndex += n);
-    }
-  else {
-    showDivs(slideIndex += n);
-    }
+function plusDivs(n)
+{
+  clearTimeout(playInterval);
+  showDivs(slideIndex += n);
 }
 
 function playStart()
 {
-  var i;
   playStarted = true;
-  var x = document.getElementsByClassName("slides");
-  for (i = 0; i < x.length; i++) {
-   x[i].style.display = "none";
+  slideIndex++;
+  if (slideIndex > x.length){
+    slideIndex = 1;
+    playStarted = false;
+    showDivs(slideIndex);
   }
-  myIndex++;
-  x[myIndex-1].style.display = "block";
-  clearInterval(playVar);
-  playVar = setTimeout(playStart, 500);
-  if (myIndex == x.length){
-    clearTimeout(playVar);
-    x[myIndex-1].style.display = "block";
-    myIndex = 0;
+  else
+  {
+    clearInterval(playInterval);
+    playInterval = setTimeout(showDivs, 350);
   }
 }
 
 function playPause()
 {
-  clearTimeout(playVar);
+  clearTimeout(playInterval);
+  if(playStarted)
+  {
+    slideIndex--;
+  }
+  playStarted = false;
 }

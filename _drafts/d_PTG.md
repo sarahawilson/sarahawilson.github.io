@@ -12,8 +12,7 @@ date: 2018-01-03
 ## Diamond Square Algorithm
 
 <!--excerpt.start-->
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg">
-Post Content goes here.
+
 <!--excerpt.end-->
 
 
@@ -23,23 +22,29 @@ Post Content goes here.
       <img class="slides" src="{{ site.baseurl }}{{ image.path }}">
     {% endif %}
   {% endfor %}
-
   <button class="button-left" onclick="plusDivs(-1)">Step Backward</button>
-  <button class="button-right" onclick="plusDivs(1)">Step Forward</button>
   <button class="button-play" onclick="playStart()">Play</button>
   <button class="button-pause" onclick="playPause()">Pause</button>
+  <button class="button-right" onclick="plusDivs(1)">Step Forward</button>
 </div>
 
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStep.svg" height="300" width="300" style="display:inline;">
 
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStep.svg" height="250" width="250" style="display:inline;">
 
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint10.svg" style="display:inline;">
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint50.svg" style="display:inline;">
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg" style="display:inline;">
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/SquareStep.svg" height="250" width="250" style="display:inline;">
+
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/2nOneExp.svg" height="300" width="300" style="display:inline;">
+
+<div style = "overflow: auto;">
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint10.svg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint50.svg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+</div>
 
 
 # [](#header-1) PTG: Main Script
-{% highlight matlab %}
+{% highlight matlab linenos %}
 %% Procedural Terrain Generation
 % Diamond Square Algorithm
 
@@ -159,7 +164,7 @@ ptg_plotter( grid, plotNum );
 
 # [](#header-1) PTG: Random Value Generator Sub-Function
 
-{% highlight matlab %}
+{% highlight matlab linenos %}
 function [ outRandVal ] = randVal( rghUpper, rghLower )
   outRandVal = rghUpper + (rghUpper - rghLower).* rand(1);
 end
@@ -167,7 +172,7 @@ end
 
 # [](#header-1) PTG: Plotting Sub-Function
 
-{% highlight matlab %}
+{% highlight matlab linenos%}
 function [] = ptg_plotter( grid, plotNum )
 
   figure()
