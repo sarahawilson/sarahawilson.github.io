@@ -28,20 +28,91 @@ date: 2018-01-03
   <button class="button-right" onclick="plusDivs(1)">Step Forward</button>
 </div>
 
+# [](#header-1) Introduction
+Realistic landscapes using four random points and basic math? You bet. That's what I used to create the landscape above. Go ahead click the clicky.
+It's called Procedural Terrain Generation or PTG for short. PTG is method of creating data algorithmically instead of manually, meaning the computer does all the heavy lifting for you.
 
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStep.svg" height="250" width="250" style="display:inline;">
+PTG is commonly used in video games to create textures or landscapes. PTG is how No Man's Sky, the 2016 PlayStation 4 and Windows release, boasted over *18 quintillion planets*, each with different landscapes and creatures. The planets are procedurally generated. The terrain is procedurally generated. Even the creatures are procedurally generated! Meaning almost infinite amounts of gameplay.
 
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/SquareStep.svg" height="250" width="250" style="display:inline;">
+The Diamond Square Algorithm is the algorithm I coded up for this post. **ADD IN A LITTLE MORE INFO HERE TO EASE THE TRANSITION**
 
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/2nOneExp.svg" height="300" width="300" style="display:inline;">
+# [](#header-1) Diamond Square Algorithm
+The Diamond Square Algorithm starts with a heightmap. A heightmap is basically a grid filled with values, like a spreadsheet. The dimensions of that grid act as the \\(X\\) and \\(Y\\) coordinates and the values are heights or elevations. For each \\(X,Y\\) coordinate pair there is an elevation.
+For simplicity, the grids we are going to look at will be square and have the dimensions of \\(2^n + 1\\), where \\(n \geqslant 1 \\) and \\(n\\) is an integer. Dimensions like 3x3, 5x5, 9x9 ect.
 
-<div style = "overflow: auto;">
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint10.svg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint50.svg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+<span style="color:#990000;">1. Seed the Corners</span> <br>
+Starting with a empty grid with dimension 9x9, place any four random values in the corners of the grid. I'll show them as \\(A, B, C, D\\).
+
+<span style="color:#990000;">2. Diamond Step</span> <br>
+Take the average of points \\(A, B, C, D\\). Add a random value to that average and then place the result in the center of the grid.
+
+$$
+  \begin{align}
+  E = \frac{A+B+C+D}{4} + valRan
+  \end{align}
+$$
+
+<span style="color:#990000;">3. Square Step</span> <br>
+
+$$
+  \begin{align}
+  F = \frac{A+C+E}{3} + valRan\\
+  \\
+  I = \frac{C+D+E}{3} + valRan\\
+  \\
+  H = \frac{D+B+E}{3} + valRan\\
+  \\
+  G = \frac{A+B+E}{3} + valRan\\
+  \end{align}
+$$
+
+<span style="color:#990000;">3. Rinse and Repeat* </span> <br>
+\\(A, B, C, D\\)
+
+<div style = "overflow: auto; margin: 20px; padding: 35px;">
+  <figure style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStep.svg">
+    <figcaption style="text-align: center; color: #393939;"> Diamond Step </figcaption>
+  </figure>
+
+  <figure style="float: right; width: 30%; margin-bottom: 0.5em; margin-top: 0;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/SquareStep.svg">
+    <figcaption style="text-align: center; color: #393939;"> Sqaure Step </figcaption>
+  </figure>
 </div>
 
+# [](#header-1) Why \\(2^n + 1\\) ?
+So what the heck in n anyway? It's not the dimensions of the grid. \\(Dim = 2^n + 1\\)
+
+
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/2nOneExp.svg" height="200" width="200">
+
+# [](#header-1) Roughness Coefficient
+
+<div style = "overflow: auto;">
+  <figure style="float: left; width: 40%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint10.svg">
+    <figcaption style="text-align: center; color: #393939;"> Roughness = 0.10 </figcaption>
+  </figure>
+
+  <figure style="float: right; width: 40%; margin-bottom: 0.5em; margin-top: 0;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE_point250.svg">
+    <figcaption style="text-align: center; color: #393939;"> Roughness = 0.25 </figcaption>
+  </figure>
+
+  <figure style="float: left; width: 40%; margin-bottom: 0.5em;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint50.svg">
+    <figcaption style="text-align: center; color: #393939;"> Roughness = 0.50 </figcaption>
+  </figure>
+
+  <figure style="float: left; width: 40%; margin-bottom: 0.5em;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOE1point90.svg">
+    <figcaption style="text-align: center; color: #393939;"> Roughness = 0.9 </figcaption>
+  </figure>
+</div>
+
+# [](#header-1) Resources and Going Further
+Add in link to the javaworld article and write up about the source code you provided.
 
 # [](#header-1) PTG: Main Script
 {% highlight matlab linenos %}

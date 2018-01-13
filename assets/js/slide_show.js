@@ -15,6 +15,7 @@ function showDivs(n)
   for (i = 0; i < x.length; i++) {
    x[i].style.display = "none";
   }
+  console.log(slideIndex);
   x[slideIndex-1].style.display = "block";
 
   if(playStarted){
@@ -32,15 +33,15 @@ function playStart()
 {
   playStarted = true;
   slideIndex++;
-  if (slideIndex > x.length){
-    slideIndex = 1;
+  if (slideIndex == x.length){
     playStarted = false;
     showDivs(slideIndex);
+    slideIndex = 0;
   }
   else
   {
     clearInterval(playInterval);
-    playInterval = setTimeout(showDivs, 350);
+    playInterval = setTimeout(showDivs, 150);
   }
 }
 
