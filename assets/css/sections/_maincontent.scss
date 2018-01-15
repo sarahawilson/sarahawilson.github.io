@@ -32,10 +32,10 @@
 .main-content .expandedSolFrac { margin: 0; line-height: 65px; }
 .main-content .captions {text-align: center; margin-top: 0px; font-size: 14px; font-weight: bold;}
 .main-content .slideshow { text-align: center; margin-top: 0px; margin-bottom: 0px;}
-.main-content .button-left { position: relative; }
-.main-content .button-right{ position: relative; }
-.main-content .button-play{ position: relative; }
-.main-content .button-pause{ position: relative; }
+.main-content .button-left { display: block; margin: 0 auto;  }
+.main-content .button-right{ display: block; margin: 0 auto;  }
+.main-content .button-play{ display: block; margin: 0 auto;  }
+.main-content .button-pause{ display: block; margin: 0 auto;  }
 .main-content .slides {width: 100%;}
 
 

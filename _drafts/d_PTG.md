@@ -22,10 +22,11 @@ date: 2018-01-03
       <img class="slides" src="{{ site.baseurl }}{{ image.path }}">
     {% endif %}
   {% endfor %}
-  <button class="button-left" onclick="plusDivs(-1)">Step Backward</button>
-  <button class="button-play" onclick="playStart()">Play</button>
-  <button class="button-pause" onclick="playPause()">Pause</button>
-  <button class="button-right" onclick="plusDivs(1)">Step Forward</button>
+
+  <button class="button-left, material-icons" onclick="plusDivs(-1)">fast_rewind</button>
+  <button class="button-play, material-icons" onclick="playStart()"> play_arrow </button>
+  <button class="button-pause, material-icons" onclick="playPause()"> pause </button>
+  <button class="button-right, material-icons" onclick="plusDivs(1)">fast_forward</button>
 </div>
 
 # [](#header-1) Introduction
@@ -38,7 +39,30 @@ The Diamond Square Algorithm is the algorithm I coded up for this post. **ADD IN
 
 # [](#header-1) Diamond Square Algorithm
 The Diamond Square Algorithm starts with a heightmap. A heightmap is basically a grid filled with values, like a spreadsheet. The dimensions of that grid act as the \\(X\\) and \\(Y\\) coordinates and the values are heights or elevations. For each \\(X,Y\\) coordinate pair there is an elevation.
-For simplicity, the grids we are going to look at will be square and have the dimensions of \\(2^n + 1\\), where \\(n \geqslant 1 \\) and \\(n\\) is an integer. Dimensions like 3x3, 5x5, 9x9 ect.
+
+For simplicity, the grids we are going to look at will be square and have the dimensions of \\(2^n + 1\\). Where \\(n \geqslant 1 \\) and \\(n\\) is an integer. Dimensions like 3x3, 5x5, 9x9 ect.
+
+<div style = "overflow: auto;">
+  <figure style="float: left; width: 24%; margin-right: 0; margin-left: 0; margin-bottom: 0.5em;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStep.svg">
+    <figcaption style="text-align: center; color: #393939;"> Diamond Step </figcaption>
+  </figure>
+
+  <figure style="float: left; width: 24%; margin-left: 10px; margin-right: 10px; margin-bottom: 0.5em; margin-top: 0;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/SquareStep.svg">
+    <figcaption style="text-align: center; color: #393939;"> Sqaure Step </figcaption>
+  </figure>
+
+  <figure style="float: left; width: 24%; margin-left: 0; margin-right: 10px; margin-bottom: 0.5em; margin-top: 0;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStepN2.svg">
+    <figcaption style="text-align: center; color: #393939;"> Diamond Step N2 </figcaption>
+  </figure>
+
+  <figure style="float: left; width: 24%; margin-left: 0; margin-right:0; margin-bottom: 0.5em; margin-top: 0;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/SquareStepN2.svg">
+    <figcaption style="text-align: center; color: #393939;"> Square Step N2 </figcaption>
+  </figure>
+</div>
 
 <span style="color:#990000;">1. Seed the Corners</span> <br>
 Starting with a empty grid with dimension 9x9, place any four random values in the corners of the grid. I'll show them as \\(A, B, C, D\\).
@@ -68,18 +92,18 @@ $$
 
 <span style="color:#990000;">3. Rinse and Repeat* </span> <br>
 \\(A, B, C, D\\)
-
-<div style = "overflow: auto; margin: 20px; padding: 35px;">
-  <figure style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStep.svg">
-    <figcaption style="text-align: center; color: #393939;"> Diamond Step </figcaption>
+<div style = "overflow: auto;">
+  <figure style="float: left; width: 24%; margin-right: 0; margin-left:150px; margin-bottom: 0.5em;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/NonEdgeCase.svg">
+    <figcaption style="text-align: center; color: #393939;"> Edge Case </figcaption>
   </figure>
 
-  <figure style="float: right; width: 30%; margin-bottom: 0.5em; margin-top: 0;">
-    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/SquareStep.svg">
-    <figcaption style="text-align: center; color: #393939;"> Sqaure Step </figcaption>
+  <figure style="float: right; width: 24%; margin-left: 10px; margin-right: 150px; margin-bottom: 0.5em; margin-top: 0;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/EdgeCase.svg">
+    <figcaption style="text-align: center; color: #393939;"> Non-Edge Case </figcaption>
   </figure>
 </div>
+
 
 # [](#header-1) Why \\(2^n + 1\\) ?
 So what the heck in n anyway? It's not the dimensions of the grid. \\(Dim = 2^n + 1\\)
