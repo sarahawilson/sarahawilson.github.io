@@ -22,7 +22,9 @@ date: 2018-01-03
       <img class="slides" src="{{ site.baseurl }}{{ image.path }}">
     {% endif %}
   {% endfor %}
+</div>
 
+<div style="display: flex; align-items: center; justify-content: center; margin-left: 2.5rem;">
   <button class="button-left, material-icons" onclick="plusDivs(-1)">fast_rewind</button>
   <button class="button-play, material-icons" onclick="playStart()"> play_arrow </button>
   <button class="button-pause, material-icons" onclick="playPause()"> pause </button>
@@ -42,6 +44,8 @@ The Diamond Square Algorithm starts with a heightmap. A heightmap is basically a
 
 For simplicity, the grids we are going to look at will be square and have the dimensions of \\(2^n + 1\\). Where \\(n \geqslant 1 \\) and \\(n\\) is an integer. Dimensions like 3x3, 5x5, 9x9 ect.
 
+The following images show the first two calls of the diamond square algorithm being performed on a 9x9 grid. The diamond square algorithm is called until all elements, (cells if you like spreadsheets), within the grid are filled with a value. In a 9x9 grid the diamond square algorithm would have to be called 3 times in order to fill all 81 elements with values. This is further explained in the Why \\(2^n + 1\\) ? section.
+
 <div style = "overflow: auto;">
   <figure style="float: left; width: 24%; margin-right: 0; margin-left: 0; margin-bottom: 0.5em;">
     <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStep.svg">
@@ -55,20 +59,21 @@ For simplicity, the grids we are going to look at will be square and have the di
 
   <figure style="float: left; width: 24%; margin-left: 0; margin-right: 10px; margin-bottom: 0.5em; margin-top: 0;">
     <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStepN2.svg">
-    <figcaption style="text-align: center; color: #393939;"> Diamond Step N2 </figcaption>
+    <figcaption style="text-align: center; color: #393939;"> Diamond Step </figcaption>
   </figure>
 
   <figure style="float: left; width: 24%; margin-left: 0; margin-right:0; margin-bottom: 0.5em; margin-top: 0;">
     <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/SquareStepN2.svg">
-    <figcaption style="text-align: center; color: #393939;"> Square Step N2 </figcaption>
+    <figcaption style="text-align: center; color: #393939;"> Square Step </figcaption>
   </figure>
 </div>
 
 <span style="color:#990000;">1. Seed the Corners</span> <br>
-Starting with a empty grid with dimension 9x9, place any four random values in the corners of the grid. I'll show them as \\(A, B, C, D\\).
+Starting with a empty 9x9 grid, place any four random values in the corner elements of the grid.\\
+Shown as \\(A, B, C, D\\).
 
 <span style="color:#990000;">2. Diamond Step</span> <br>
-Take the average of points \\(A, B, C, D\\). Add a random value to that average and then place the result in the center of the grid.
+Then take the average of elements \\(A, B, C, D\\). Add a random value (\\(valRan\\)) to that average and then place the result in the center of the square. Shown as \\(E\\).
 
 $$
   \begin{align}
@@ -77,6 +82,7 @@ $$
 $$
 
 <span style="color:#990000;">3. Square Step</span> <br>
+Then take the average of the value placed in the center of the square \\(E\\) and the two elements located at the top, bottom, left and right. (Each is a separate average). Add a random value to those averages and then place the results in the midpoint of the top, bottom, left and bottom edges of the square. Shown as \\(F, I, H, G\\).
 
 $$
   \begin{align}
@@ -136,12 +142,25 @@ So what the heck in n anyway? It's not the dimensions of the grid. \\(Dim = 2^n 
 </div>
 
 # [](#header-1) Resources and Going Further
-Add in link to the javaworld article and write up about the source code you provided.
+The diamond square algorithm is only the tip of the iceberg when it comes to Procedural Terrain Generation. The following links were extremely helpful in the making of this post :
+
+[3D Graphic Java: Render Fractal Landscapes](https://www.javaworld.com/article/2076745/learn-java/3d-graphic-java--render-fractal-landscapes.html)\\
+An older article, but the most in-depth as it covers lighting, shadows and view point calculations.
+
+[Algorithms for Procedural Content Generation](http://pcg.wikidot.com/category-pcg-algorithms)\\
+A listing of many high level concepts related to writing code for procedural content generation.
+
+[Terrian Generation with Diamond Square](http://stevelosh.com/blog/2016/06/diamond-square/)\\
+A full series of posts covering, midpoint displacement, recursive midpoint displacement and the diamond square algorithm.
+
+I took an iterative approach, as opposed to a recursive one, when I coded my version of the Diamond Square Algorithm. I used MatLab because it was the most accessible 3D graphing tool I had on hand. There are three functions: the main script, the plotting sub-function and the random value generation sub-function. The best way to learn something is to try coding it on your own first, but feel free to use and play around with this code.
 
 # [](#header-1) PTG: Main Script
 {% highlight matlab linenos %}
 %% Procedural Terrain Generation
 % Diamond Square Algorithm
+% Sarah Wilson
+% https://sarahawilson.github.io/
 
 %% Defined Inputs
 
@@ -260,6 +279,10 @@ ptg_plotter( grid, plotNum );
 # [](#header-1) PTG: Random Value Generator Sub-Function
 
 {% highlight matlab linenos %}
+%% Random Value Generator
+% Sarah Wilson
+% https://sarahawilson.github.io/
+
 function [ outRandVal ] = randVal( rghUpper, rghLower )
   outRandVal = rghUpper + (rghUpper - rghLower).* rand(1);
 end
@@ -268,6 +291,10 @@ end
 # [](#header-1) PTG: Plotting Sub-Function
 
 {% highlight matlab linenos%}
+%% PTG Plotter  
+% Sarah Wilson
+% https://sarahawilson.github.io/
+
 function [] = ptg_plotter( grid, plotNum )
 
   figure()
