@@ -32,48 +32,37 @@ date: 2018-01-03
 </div>
 
 # [](#header-1) Introduction
-Realistic landscapes using four random points and basic math? You bet. That's what I used to create the landscape above. Go ahead click the clicky.
-It's called Procedural Terrain Generation or PTG for short. PTG is method of creating data algorithmically instead of manually, meaning the computer does all the heavy lifting for you.
-
-PTG is commonly used in video games to create textures or landscapes. PTG is how No Man's Sky, the 2016 PlayStation 4 and Windows release, boasted over *18 quintillion planets*, each with different landscapes and creatures. The planets are procedurally generated. The terrain is procedurally generated. Even the creatures are procedurally generated! Meaning almost infinite amounts of gameplay.
-
-The Diamond Square Algorithm is the algorithm I coded up for this post. **ADD IN A LITTLE MORE INFO HERE TO EASE THE TRANSITION**
+Realistic terrain using four random values and basic math? You bet! That's what I used to create the terrain above. Procedural generation is a method of creating data algorithmically instead of manually.  Procedural generation is commonly used in video games to create textures or landscapes. The 2016 title, No Man's Sky, boasted over *18 quintillion* planets, each with unique landscapes and creatures, all created by using procedural generation algorithms. Procedural generation can be used to make realistic looking terrain, hence the name Procedural Terrain Generation (PTG). The Diamond Square Algorithm is a straight forward method of procedurally generating terrain.
 
 # [](#header-1) Diamond Square Algorithm
-The Diamond Square Algorithm starts with a heightmap. A heightmap is basically a grid filled with values, like a spreadsheet. The dimensions of that grid act as the \\(X\\) and \\(Y\\) coordinates and the values are heights or elevations. For each \\(X,Y\\) coordinate pair there is an elevation.
+The Diamond Square Algorithm starts with a heightmap. A heightmap is a matrix filled with values. For those not familiar think of a matrix like an Excel Spreadsheet, it has rows and columns that hold data and allow that data to be manipulated. The matrix's row and column indices act as the \\(X\\) and \\(Y\\) position coordinates. The values placed inside the matrix are heights or the \\(Z\\) position coordinate. A heightmap maps a 2D coordinate \\((X, Y)\\) with a height \\((Z)\\). In other words, a height map can describe the topography of an area.
 
-For simplicity, the grids we are going to look at will be square and have the dimensions of \\(2^n + 1\\). Where \\(n \geqslant 1 \\) and \\(n\\) is an integer. Dimensions like 3x3, 5x5, 9x9 ect.
+The diamond square algorithm can be broken out into four main steps:
+1. Set the Dimensions
+2. Seed the Corners
+3. Perform the Diamond Step
+4. Perform the Square Step
 
-The following images show the first two calls of the diamond square algorithm being performed on a 9x9 grid. The diamond square algorithm is called until all elements, (cells if you like spreadsheets), within the grid are filled with a value. In a 9x9 grid the diamond square algorithm would have to be called 3 times in order to fill all 81 elements with values. This is further explained in the Why \\(2^n + 1\\) ? section.
+<span style="color:#990000;">1. Set the Dimensions</span> <br>
+The diamond square algorithm needs the matrix to be square and have the dimensions of \\(2^n + 1\\). Where \\(n \geqslant 1 \\) and \\(n\\) is an integer. Dimensions like 3x3, 5x5, 9x9 ect.
 
-<div style = "overflow: auto;">
-  <figure style="float: left; width: 24%; margin-right: 0; margin-left: 0; margin-bottom: 0.5em;">
-    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStep.svg">
-    <figcaption style="text-align: center; color: #393939;"> Diamond Step </figcaption>
-  </figure>
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/Empty 5x5.svg" height="200" width="200">
 
-  <figure style="float: left; width: 24%; margin-left: 10px; margin-right: 10px; margin-bottom: 0.5em; margin-top: 0;">
-    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/SquareStep.svg">
-    <figcaption style="text-align: center; color: #393939;"> Sqaure Step </figcaption>
-  </figure>
+ Why \\(2^n + 1\\)? And what is \\(n\\) anyway? It's not the dimensions of the grid. \\(Dim = 2^n + 1\\)
 
-  <figure style="float: left; width: 24%; margin-left: 0; margin-right: 10px; margin-bottom: 0.5em; margin-top: 0;">
-    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStepN2.svg">
-    <figcaption style="text-align: center; color: #393939;"> Diamond Step </figcaption>
-  </figure>
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/2nOneExp.svg" height="200" width="200">
 
-  <figure style="float: left; width: 24%; margin-left: 0; margin-right:0; margin-bottom: 0.5em; margin-top: 0;">
-    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/SquareStepN2.svg">
-    <figcaption style="text-align: center; color: #393939;"> Square Step </figcaption>
-  </figure>
-</div>
-
-<span style="color:#990000;">1. Seed the Corners</span> <br>
-Starting with a empty 9x9 grid, place any four random values in the corner elements of the grid.\\
+<span style="color:#990000;">2. Seed the Corners</span> <br>
+The matrix starts off empty, with dimensions of \\(2^n + 1\\), then any four random values are placed in the corners of the matrix.
 Shown as \\(A, B, C, D\\).
 
-<span style="color:#990000;">2. Diamond Step</span> <br>
-Then take the average of elements \\(A, B, C, D\\). Add a random value (\\(valRan\\)) to that average and then place the result in the center of the square. Shown as \\(E\\).
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/SeedCorners.svg" height="200" width="200">
+
+<span style="color:#990000;">3. Perform the Diamond Step</span> <br>
+The diamond step takes the four corner elements of a square, then finds the center element of that square. The value of the center element is set equal to the average of the four corner element values plus a random value.\\
+\\(E\\)\\
+random value (\\(valRan\\))\\
+DESCRIBE HOW IT LOOKS LIKE A DIAMOND
 
 $$
   \begin{align}
@@ -81,8 +70,14 @@ $$
   \end{align}
 $$
 
-<span style="color:#990000;">3. Square Step</span> <br>
-Then take the average of the value placed in the center of the square \\(E\\) and the two elements located at the top, bottom, left and right. (Each is a separate average). Add a random value to those averages and then place the results in the midpoint of the top, bottom, left and bottom edges of the square. Shown as \\(F, I, H, G\\).
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/Diamond_Step_N1.svg" height="200" width="200">
+
+<span style="color:#990000;">4. Perform the Square Step</span> <br>
+The square step takes the tip elements of the diamond created in the diamond step and then finds the center element of that diamond. The value of the center element is set equal to the average of all the tip elements plus a random value.\\
+DESCRIBE HOW IT LOOKS LIKE A SQUARE\\
+<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/Square_Step_N1.svg" height="200" width="200">
+
+then place the results in the midpoint of the top, bottom, left and bottom edges of the square. Shown as \\(F, I, H, G\\).
 
 $$
   \begin{align}
@@ -95,6 +90,22 @@ $$
   G = \frac{A+B+E}{3} + valRan\\
   \end{align}
 $$
+
+<span style="color:#990000;">Rinse and Repeat* </span> <br>
+ two steps are called over and over until all elements within the matrix are filled with values, the Diamond Step and Square Step.
+<br>
+<br>
+<br>
+
+
+### [](#header-3) OLDER STUFFS
+
+The following images show the first two calls of the diamond square algorithm being performed on a 9x9 grid. The diamond square algorithm is called until all elements, (cells if you like spreadsheets), within the grid are filled with a value. In a 9x9 grid the diamond square algorithm would have to be called 3 times in order to fill all 81 elements with values.
+
+  <figure style="width: 24%; margin-right: 0; margin-left: 0; margin-bottom: 0.5em;">
+    <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/DiamondStep.svg">
+    <figcaption style="text-align: center; color: #393939;"> Diamond Step </figcaption>
+  </figure>
 
 <span style="color:#990000;">3. Rinse and Repeat* </span> <br>
 \\(A, B, C, D\\)
@@ -110,12 +121,6 @@ $$
   </figure>
 </div>
 
-
-# [](#header-1) Why \\(2^n + 1\\) ?
-So what the heck in n anyway? It's not the dimensions of the grid. \\(Dim = 2^n + 1\\)
-
-
-<img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/StepByStepImages/2nOneExp.svg" height="200" width="200">
 
 # [](#header-1) Roughness Coefficient
 
