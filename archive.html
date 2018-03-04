@@ -7,7 +7,18 @@ title: {{ site.title }}
   {% for post in site.posts %}
     <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
     <h2><span class="carrot">&raquo; </span>{{ post.date | date_to_string }}</h2>
+    {% if post.title contains 'Procedural' %}
+      <img src="{{ site.baseurl }}/assets/images/imgPost/PTG_Images/rCOE/grid_rCOEpoint50.svg" width="40%" style = "float: Left">
+      <div width = "60%" style ="margin-top: 50px">
+        Realistic terrain using four random values and basic math? You bet!
+        Procedural generation is a method of creating data algorithmically instead of manually.
+        It is commonly used in video games to create textures and landscapes.
+        The Diamond Square Algorithm is a straight forward method of procedurally generating terrain.
+      </div>
+      <br style="clear: Both">
+    {% else %}
     {{ post.content | split:'<!--excerpt.start-->' | last | split: '<!--excerpt.end-->' | first }}
+    {% endif %}
     <div class="sep-line"></div>
   {% endfor %}
 </div>
