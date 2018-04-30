@@ -13,6 +13,14 @@
   <meta content="text/html"; charset="UTF-8"; http-equiv="content-type">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- Pull in page keywords for posts-->
+  {% if page.description %}
+    <meta name="description" content="{{ page.description }}">
+  {% else %}
+    <meta name="description" content="{{ site.description }}">
+  {% endif %}
+
+
   <link rel ="icon" href = "">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/all.css">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>

@@ -1,6 +1,8 @@
   <footer class="site-footer">
     <div class="old_posts">
-      <a href="{{ site.baseurl }}/archive.html">&laquo; Older Posts</a>
+      {% if page.tags contains 'Home Page' %}
+        <a href="{{ site.baseurl }}/archive.html">&laquo; Older Posts</a>
+      {% endif %}
     </div>
     <span class="site-footer-owner"> Maintained & Written by <a href="{{ site.baseurl }}/contact.html">Sarah Wilson</a></span>
   </footer>

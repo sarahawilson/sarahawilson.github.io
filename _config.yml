@@ -1,6 +1,7 @@
 #Site Settings
 title:  Sarah Wilson
 tag-line: Aerospace Engineer // Writer // Outdoor Adventurer
+description: The blog of Sarah Wilson. Focused on making mathematics simpler to understand through real world examples and visualizations.
 baseurl:      ""
 excerpt_separator: <!--endPreview-->
 # sass
